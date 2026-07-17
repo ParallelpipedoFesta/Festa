@@ -1,0 +1,8 @@
+  Logic gates in a quantum computer applied to a single qubit, known as single-qubit gates, are just doing rotations.
+  Pauli gates, composed with X, Y and Z, can be attached to the circuit to flip the superposition along x, y and z axes in the Bloch sphere respectively. 
+  The X gate swaps the probablities of being measured 0 and 1 that acts like a NOT gate in a classic computer. This circuit transforms |0> to |1> by applying a X gate:
+  [3%tutorial/x.qc]
+  The Z gate flips the phase of a superposition. This earns Z the nickname "phase-flip" gate.
+  The Y gate flips the state like X but also introduces a phase: Y|0> = i|1> and Y|1> = -i|0>.
+  X is used to flip qubit states. Z is used to apply a phase kick - it leaves |0> unchanged but can change the sign of the |1> component, which is useful in algorithms and forming controlled-Z gates.
+while Y is less frequently used directly.

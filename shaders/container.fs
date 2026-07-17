@@ -1,14 +1,4 @@
 #version 330 core
-
-struct Material{
-	sampler2D diffuseMap;
-	sampler2D specularMap;
-	vec3 diffuse;
-	vec3 specular;
-	float shininess;
-};
-
-
 #define eps 0.0001
 
 struct Light {
@@ -28,7 +18,6 @@ const int NR_LIGHTS = 15;
 uniform Light lights[NR_LIGHTS];
 uniform DirLight dirLights[NR_LIGHTS];
 
-uniform Material material;
 uniform vec3 viewPos;
 out vec4 FragColor;
 
@@ -45,45 +34,34 @@ float cartoonize(float x, int numSteps){
 }
 
 void main(){
-	float alpha = 1.0;
-	vec3 Diffuse = material.diffuse;
-	vec3 Specular = material.specular;
-	if(eq(Diffuse, vec3(-1.0))){
-		vec4 col = texture(material.diffuseMap, TexCoords);
-		alpha = col.w;
-		Diffuse = col.xyz;
-	}
-	if(eq(Specular, vec3(-1.0)))Specular=texture(material.specularMap, TexCoords).xyz;
+	vec3 Diffuse = vec3(1.0);
+	vec3 Specular = vec3(1.0);
+    float shininess = 16.0;
 	vec3 Normal = normalize(N);
 	vec3 viewDir = normalize(viewPos-FragPos);
 	vec3 lighting = Diffuse * 0.1;
 
-    int numSteps = 5;
+    int numSteps = 10;
 	
     for(int i = 0; i < NR_LIGHTS; ++i){
         float distance = length(lights[i].Position - FragPos);
         if(distance<lights[i].Radius){
             vec3 lightDir = normalize(lights[i].Position - FragPos);
             float diff = max(dot(Normal, lightDir), 0.0);
-            diff = cartoonize(diff, numSteps);
+            //diff = cartoonize(diff, numSteps);
             vec3 diffuse = diff * Diffuse * lights[i].Color;
             // specular
             vec3 halfwayDir = normalize(lightDir + viewDir);  
-            float spec = pow(max(dot(Normal, halfwayDir), 0.0), material.shininess);
+            float spec = pow(max(dot(Normal, halfwayDir), 0.0), shininess);
             //spec = cartoonize(spec, numSteps);
-            vec3 specular = lights[i].Color * spec * Specular;
+            vec3 specular = spec * Specular * lights[i].Color;
             float attenuation = 1.0 / (lights[i].Constant + lights[i].Linear * distance + lights[i].Quadratic * distance * distance);
             lighting += attenuation*(diffuse + specular);
         }
     }
-    for(int i = 0; i < NR_LIGHTS; ++i){
-        vec3 lightDir = dirLights[i].Direction;
-        vec3 diffuse = max(dot(Normal, lightDir), 0.0) * Diffuse * dirLights[i].Color;
-        // specular
-        vec3 halfwayDir = normalize(lightDir + viewDir);  
-        float spec = pow(max(dot(Normal, halfwayDir), 0.0), material.shininess);
-        vec3 specular = dirLights[i].Color * spec * Specular;
-        //lighting += diffuse + specular;
-    }
+    float alpha = length(lighting);
+    //alpha = alpha*alpha;
+    alpha = max(pow(alpha, 4.0), 0.2);
     FragColor = vec4(lighting, alpha);
+    
 }

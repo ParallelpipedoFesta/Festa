@@ -1,0 +1,12 @@
+{
+    "tutorial":[
+        ["1.1 Qubit", "tutorial/qubit.ttr"],
+        ["1.2 Bloch Sphere", "tutorial/bloch_sphere.ttr"],
+        ["2.1 Pauli Gates", "tutorial/pauli_gates.ttr"],
+        ["2.2 The Essence of Quantum Gates", "tutorial/essence_of_quantum_gates.ttr"],
+        ["3.1 Hadamard Gate", "tutorial/hadamard_gate.ttr"]
+    ],
+    "levels":[
+        []
+    ]
+}

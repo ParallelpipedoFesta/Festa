@@ -34,5 +34,5 @@ void main(){
 	gl_Position = projection*view*model*position;
 	FragPos = worldPos.xyz;
 	N = transpose(inverse(mat3(boneMat*model))) * aNormal;
-	TexCoords = aTexCoords;
+	TexCoords = vec2(aTexCoords.x, 1.0 - aTexCoords.y);
 }

@@ -13,26 +13,23 @@ uniform mat4 view;
 uniform mat4 model;
 
 out vec3 FragPos;
-out vec3 N;
+out vec3 Normal;
 out vec2 TexCoords;
 
 
 void main(){
-	vec4 position = vec4(0.0);
-	mat4 boneMat = mat4(0.0);
+	vec4 position = vec4(0.0f);
 	for(int i=0; i<4; i++){
-		if(aBones[i] < 0.0)continue;
-		else if(aBones[i]==0.0 || aBones[i]>MAX_BONES){
+		if(aBones[i] < 0.0f)continue;
+		else if(aBones[i]==0.0f || aBones[i]>MAX_BONES){
 			position = vec4(aPos, 1.0f);
-			boneMat = mat4(1.0f);
 			break;
 		}
-		position += aWeights[i] * boneMatrices[int(aBones[i])] * vec4(aPos, 1.0);
-		boneMat += aWeights[i] * boneMatrices[int(aBones[i])];
+		position += aWeights[i] * boneMatrices[int(aBones[i])] * vec4(aPos,1.0f);
 	}
     vec4 worldPos = model*position;
 	gl_Position = projection*view*model*position;
 	FragPos = worldPos.xyz;
-	N = transpose(inverse(mat3(boneMat*model))) * aNormal;
+	Normal = transpose(inverse(mat3(model))) * aNormal;
 	TexCoords = aTexCoords;
 }

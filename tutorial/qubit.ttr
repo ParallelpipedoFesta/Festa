@@ -1,0 +1,11 @@
+  Unlike bits in a classic computer, a quantum bit, qubit for short, can present the state of 0 and 1 simultaneously and will collpse in to 0 or 1 once measured with certain probablity.
+The probablity distribution of a qubit can be described as a vector in the space spanned by |0> and |1>, which are the basis vectors presenting 0 and 1 respectively.
+Obviously |0> and |1> have to be orthogonal and normal.
+  The vector describing the state of the qubit named a superposition, given by the expression |ψ> = α|0> + β|1>, 
+where α and β are complex numbers for the sake of compatibility of quantum mechanics, 
+{@^ |α| 2} and {@^ |β| 2} are probablities of the qubit if likely to be measured 0 and 1 respectively.
+Moreover, {@^ |α| 2} and {@^ |β| 2} will always equals one to maintain the unit magnitude of the superposition.
+  Place a |0> gate, a |1> gate and a input gate in I/O menu to register 3 qubits. Then place 3 output gate to send outputs to pass this level. 
+(The order of the qubits matters)
+  Your quantum circuit will be like this:
+  Right-click a gate to edit it.
